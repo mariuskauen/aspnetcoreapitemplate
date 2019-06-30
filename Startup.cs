@@ -30,6 +30,7 @@ namespace soapApi
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddOData();
+            services.AddCors();
             services.AddAutoMapper();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
                options.TokenValidationParameters = new TokenValidationParameters
@@ -55,8 +56,9 @@ namespace soapApi
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseAuthentication();
+            app.UseCors(z => z.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseMvc(routeBuilder => 
             {
                 routeBuilder.EnableDependencyInjection();

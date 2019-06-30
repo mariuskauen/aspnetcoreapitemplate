@@ -47,10 +47,15 @@ namespace soapApi.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginViewModel vm)
         {
+            LoginResponseViewModel response = new LoginResponseViewModel();
             var userFromRepo = await auth.Login(vm.Username.ToLower(), vm.Password);
 
             if (userFromRepo == null)
-                return Unauthorized();
+            {
+                response.StatusCode = "Unauthorized";
+                return BadRequest();
+            }
+                
 
             var claims = new[]
             {
@@ -73,9 +78,14 @@ namespace soapApi.Controllers
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return Ok(new {
-                token = tokenHandler.WriteToken(token)
-            });
+            
+            
+            
+                response.StatusCode = "Ok";
+                response.Token = tokenHandler.WriteToken(token);
+
+            return Ok(new { token = tokenHandler.WriteToken(token) });
+            //return response;
         }
     }
 }

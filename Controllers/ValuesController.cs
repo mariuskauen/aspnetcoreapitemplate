@@ -11,7 +11,6 @@ using soapApi.ViewModels;
 
 namespace soapApi.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase
@@ -34,6 +33,16 @@ namespace soapApi.Controllers
             List<ValueViewModel> vm = _mapper.Map<List<ValueViewModel>>(result);
 
             return Ok(vm);
+        }
+
+         [HttpGet("directvalues")]
+        public async Task<List<ValueViewModel>> GetValuesDirectly()
+        {
+            var result = await _repo.GetAllValuesAsync();
+
+            List<ValueViewModel> vm = _mapper.Map<List<ValueViewModel>>(result);
+
+            return vm;
         }
 
         // GET api/values/5
