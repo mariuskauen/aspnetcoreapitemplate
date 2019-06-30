@@ -57,30 +57,35 @@ namespace soapApi.Controllers
         [HttpGet("getmyrequests")]
         public async Task<List<MyFriendRequestsViewModel>> GetMyRequests()
         {          
-            string _userid = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value;
+            //string _userid = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value;
             
-            return await _friend.GetMyRequests(_userid);
+            return await _friend.GetMyRequests(GetUserId().Result);
         }
         [HttpGet("getothersrequests")]
         public async Task<List<MyFriendRequestsViewModel>> GetOthersRequests()
         {
-           string _userid = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value;
+           //string _userid = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value;
             
-            return await _friend.GetOthersRequests(_userid);
+            return await _friend.GetOthersRequests(GetUserId().Result);
         }
 
         [HttpGet("getallrequests")]
         public async Task<AllRequests> GetAllRequests()
         {
-            string _userid = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value;
+            //string _userid = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value;
 
             AllRequests requests = new AllRequests()
             {
-                My = await _friend.GetMyRequests(_userid),
-                Others = await _friend.GetOthersRequests(_userid)
+                My = await _friend.GetMyRequests(GetUserId().Result),
+                Others = await _friend.GetOthersRequests(GetUserId().Result)
             };
 
             return requests;
+        }
+
+        private async Task<string> GetUserId()
+        {
+            return HttpContext.User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value;
         }
     }
 }
