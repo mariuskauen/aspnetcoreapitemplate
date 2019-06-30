@@ -2,7 +2,7 @@ using AutoMapper;
 using soapApi.Models;
 using soapApi.ViewModels;
 
-namespace soapApi.Data
+namespace soapApi.Helpers
 {
     public class ValueProfile : Profile
     {
