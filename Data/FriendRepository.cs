@@ -75,8 +75,9 @@ namespace soapApi.Data
                     FriendViewModel vm = new FriendViewModel()
                     {
                         Id = friend.FriendTwoId,
-                        Username = friend.FriendTwo.Username
-
+                        Username = friend.FriendTwo.Username,
+                        Firstname = friend.FriendTwo.Firstname,
+                        Lastname = friend.FriendTwo.Lastname
                     };
 
                     friends.Add(vm);
@@ -89,7 +90,9 @@ namespace soapApi.Data
                     FriendViewModel vm = new FriendViewModel()
                     {
                         Id = friend.FriendOneId,
-                        Username = friend.FriendOne.Username
+                        Username = friend.FriendOne.Username,
+                        Firstname = friend.FriendOne.Firstname,
+                        Lastname = friend.FriendOne.Lastname
                     };
                     friends.Add(vm);
                 }
