@@ -7,6 +7,8 @@ namespace soapApi.ViewModels
 {
     public class MyFriendRequestsViewModel
     {
+        public string RequestId { get; set; }
+
         public string FriendName { get; set; }
 
         public string FriendId { get; set; }

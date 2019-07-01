@@ -8,6 +8,8 @@ namespace soapApi.Models
         {
             MyRequests = new List<FriendRequest>();
             OthersRequests = new List<FriendRequest>();
+            AddedFriends = new List<FriendShip>();
+            FriendsAdded = new List<FriendShip>();
 
         }
         public string Id { get; set; }
@@ -22,8 +24,13 @@ namespace soapApi.Models
 
         public byte[] PasswordSalt { get; set; }
 
-        public ICollection<FriendRequest> MyRequests { get; set; }
+        public virtual ICollection<FriendRequest> MyRequests { get; set; }
 
-        public ICollection<FriendRequest> OthersRequests { get; set; }
+        public virtual ICollection<FriendRequest> OthersRequests { get; set; }
+
+        public virtual ICollection<FriendShip> AddedFriends { get; set; }
+
+        public virtual ICollection<FriendShip> FriendsAdded { get; set; }
+
     }
 }

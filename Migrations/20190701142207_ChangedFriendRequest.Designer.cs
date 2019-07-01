@@ -9,8 +9,8 @@ using soapApi.Data;
 namespace soapApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190630130327_AddedFriendRequests")]
-    partial class AddedFriendRequests
+    [Migration("20190701142207_ChangedFriendRequest")]
+    partial class ChangedFriendRequest
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,7 +23,7 @@ namespace soapApi.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool>("Accepted");
+                    b.Property<bool>("IsActive");
 
                     b.Property<string>("ReceiverId")
                         .IsRequired();
@@ -38,6 +38,23 @@ namespace soapApi.Migrations
                     b.HasIndex("SenderId");
 
                     b.ToTable("FriendRequest");
+                });
+
+            modelBuilder.Entity("soapApi.Models.FriendShip", b =>
+                {
+                    b.Property<string>("FriendOneId");
+
+                    b.Property<string>("FriendTwoId");
+
+                    b.Property<DateTime>("FriendsSince");
+
+                    b.Property<bool>("IsFriends");
+
+                    b.HasKey("FriendOneId", "FriendTwoId");
+
+                    b.HasIndex("FriendTwoId");
+
+                    b.ToTable("FriendShip");
                 });
 
             modelBuilder.Entity("soapApi.Models.User", b =>
@@ -82,6 +99,19 @@ namespace soapApi.Migrations
                     b.HasOne("soapApi.Models.User", "Sender")
                         .WithMany("MyRequests")
                         .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("soapApi.Models.FriendShip", b =>
+                {
+                    b.HasOne("soapApi.Models.User", "FriendOne")
+                        .WithMany("AddedFriends")
+                        .HasForeignKey("FriendOneId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("soapApi.Models.User", "FriendTwo")
+                        .WithMany("FriendsAdded")
+                        .HasForeignKey("FriendTwoId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618

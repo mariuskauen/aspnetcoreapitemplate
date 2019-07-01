@@ -26,10 +26,11 @@ namespace soapApi.Data
             var myRequests = user.MyRequests.ToList();
             foreach (FriendRequest request in myRequests)
             {
-                if (!request.Accepted)
+                if (request.IsActive)
                 {
                     vm = new MyFriendRequestsViewModel()
                     {
+                        RequestId = request.Id,
                         FriendId = request.ReceiverId,
                         FriendName = request.Receiver.Username
                     };
@@ -49,10 +50,11 @@ namespace soapApi.Data
             var othersRequests = user.OthersRequests.ToList();
             foreach (FriendRequest request in othersRequests)
             {
-                if (!request.Accepted)
+                if (request.IsActive)
                 {
                     vm = new MyFriendRequestsViewModel()
                     {
+                        RequestId = request.Id,
                         FriendId = request.SenderId,
                         FriendName = request.Sender.Username
                     };
@@ -61,6 +63,38 @@ namespace soapApi.Data
                 }
             }
             return friendRequests;
+        }
+        public async Task<List<FriendViewModel>> GetAllMyFriends(string id)
+        {
+            List<FriendViewModel> friends = new List<FriendViewModel>();
+            var user = _context.Users.Include(r => r.FriendsAdded).ThenInclude(g => g.FriendOne).Include(s => s.AddedFriends).ThenInclude(g => g.FriendTwo).First(f => f.Id == id);
+            foreach (FriendShip friend in user.AddedFriends)
+            {
+                if (friend.IsFriends)
+                {
+                    FriendViewModel vm = new FriendViewModel()
+                    {
+                        Id = friend.FriendTwoId,
+                        Username = friend.FriendTwo.Username
+
+                    };
+
+                    friends.Add(vm);
+                }
+            }
+            foreach (FriendShip friend in user.FriendsAdded)
+            {
+                if (friend.IsFriends)
+                {
+                    FriendViewModel vm = new FriendViewModel()
+                    {
+                        Id = friend.FriendOneId,
+                        Username = friend.FriendOne.Username
+                    };
+                    friends.Add(vm);
+                }
+            }
+            return friends;
         }
     }
 }
