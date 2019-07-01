@@ -29,6 +29,7 @@ namespace soapApi
             services.AddScoped<IDataRepository, DataRepository>();
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IFriendRepository, FriendRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddOData();
             services.AddCors();

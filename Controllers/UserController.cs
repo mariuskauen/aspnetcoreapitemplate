@@ -16,17 +16,18 @@ namespace soapApi.Controllers
     public class UserController : ControllerBase
     {
         private readonly DataContext _context;
+        private readonly IUserRepository _userRepo;
 
-        public UserController(DataContext context)
+        public UserController(DataContext context, IUserRepository userRepo)
         {
             _context = context;
+            _userRepo = userRepo;
         }
 
-        // GET: api/User
-        [EnableQuery()]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
+            var userList = _userRepo.GetUsersForList(await GetUserId());
             return await _context.Users.ToListAsync();
         }
 
@@ -100,6 +101,10 @@ namespace soapApi.Controllers
             return user;
         }
 
+        private async Task<string> GetUserId()
+        {
+            return HttpContext.User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value;
+        }
         private bool UserExists(string id)
         {
             return _context.Users.Any(e => e.Id == id);

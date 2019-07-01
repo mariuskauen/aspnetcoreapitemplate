@@ -13,5 +13,11 @@ namespace soapApi.Data
         Task<List<MyFriendRequestsViewModel>> GetMyRequests(string _userid);
 
         Task<List<FriendViewModel>> GetAllMyFriends(string id);
+
+        
+        
+        
+
+
     }
 }
