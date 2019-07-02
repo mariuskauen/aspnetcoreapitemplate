@@ -8,12 +8,10 @@ namespace soapApi.Models
 {
     public class FriendShip
     {
-        [ForeignKey("FriendOneId")]
         public User FriendOne { get; set; }
 
         public string FriendOneId { get; set; }
 
-        [ForeignKey("FriendTwoId")]
         public User FriendTwo { get; set; }
 
         public string FriendTwoId { get; set; }

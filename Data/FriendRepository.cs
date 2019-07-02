@@ -67,8 +67,14 @@ namespace soapApi.Data
         public async Task<List<FriendViewModel>> GetAllMyFriends(string id)
         {
             List<FriendViewModel> friends = new List<FriendViewModel>();
-            var user = _context.Users.Include(r => r.FriendsAdded).ThenInclude(g => g.FriendOne).Include(s => s.AddedFriends).ThenInclude(g => g.FriendTwo).First(f => f.Id == id);
-            foreach (FriendShip friend in user.AddedFriends)
+            var user = await _context.Users
+                .Include(r => r.FriendsOne)
+                .ThenInclude(g => g.FriendTwo)
+                .Include(s => s.FriendsTwo)
+                .ThenInclude(g => g.FriendOne)
+                .FirstOrDefaultAsync(f => f.Id == id);
+
+            foreach (FriendShip friend in user.FriendsOne)
             {
                 if (friend.IsFriends)
                 {
@@ -83,7 +89,7 @@ namespace soapApi.Data
                     friends.Add(vm);
                 }
             }
-            foreach (FriendShip friend in user.FriendsAdded)
+            foreach (FriendShip friend in user.FriendsTwo)
             {
                 if (friend.IsFriends)
                 {
@@ -94,9 +100,11 @@ namespace soapApi.Data
                         Firstname = friend.FriendOne.Firstname,
                         Lastname = friend.FriendOne.Lastname
                     };
+
                     friends.Add(vm);
                 }
             }
+
             return friends;
         }
 

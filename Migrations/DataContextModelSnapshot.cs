@@ -103,12 +103,12 @@ namespace soapApi.Migrations
             modelBuilder.Entity("soapApi.Models.FriendShip", b =>
                 {
                     b.HasOne("soapApi.Models.User", "FriendOne")
-                        .WithMany("AddedFriends")
+                        .WithMany("FriendsOne")
                         .HasForeignKey("FriendOneId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("soapApi.Models.User", "FriendTwo")
-                        .WithMany("FriendsAdded")
+                        .WithMany("FriendsTwo")
                         .HasForeignKey("FriendTwoId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });

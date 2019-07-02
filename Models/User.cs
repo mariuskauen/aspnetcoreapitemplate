@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace soapApi.Models
 {
@@ -6,10 +7,11 @@ namespace soapApi.Models
     {
         public User()
         {
-            MyRequests = new List<FriendRequest>();
-            OthersRequests = new List<FriendRequest>();
-            AddedFriends = new List<FriendShip>();
-            FriendsAdded = new List<FriendShip>();
+            MyRequests = new HashSet<FriendRequest>();
+            OthersRequests = new HashSet<FriendRequest>();
+            FriendsOne = new HashSet<FriendShip>();
+            FriendsTwo = new HashSet<FriendShip>();
+            Friends = FriendsOne.Concat(FriendsTwo).Distinct();
 
         }
         public string Id { get; set; }
@@ -28,9 +30,11 @@ namespace soapApi.Models
 
         public virtual ICollection<FriendRequest> OthersRequests { get; set; }
 
-        public virtual ICollection<FriendShip> AddedFriends { get; set; }
+        public ICollection<FriendShip> FriendsOne { get; set; }
 
-        public virtual ICollection<FriendShip> FriendsAdded { get; set; }
+        public ICollection<FriendShip> FriendsTwo { get; set; }
+
+        public IEnumerable<FriendShip> Friends { get; set; }
 
     }
 }

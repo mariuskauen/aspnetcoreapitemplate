@@ -15,6 +15,9 @@ namespace soapApi.Data
                 .HasKey(f => new { f.FriendOneId, f.FriendTwoId });
 
             modelBuilder.Entity<User>()
+                .Ignore(e => e.Friends);
+
+            modelBuilder.Entity<User>()
                 .HasMany(f => f.MyRequests)
                 .WithOne(r => r.Sender)
                 .HasForeignKey(g => g.SenderId)
@@ -30,30 +33,15 @@ namespace soapApi.Data
 
             modelBuilder.Entity<FriendShip>()
                 .HasOne(f => f.FriendOne)
-                .WithMany(g => g.AddedFriends)
+                .WithMany("FriendsOne")
                 .HasForeignKey(h => h.FriendOneId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<FriendShip>()
                 .HasOne(f => f.FriendTwo)
-                .WithMany(g => g.FriendsAdded)
+                .WithMany("FriendsTwo")
                 .HasForeignKey(h => h.FriendTwoId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            //modelBuilder.Entity<User>()
-            //    .HasMany(f => f.AddedFriends)
-            //    .WithOne(g => g.FriendOne)
-            //    .HasForeignKey(w => w.FriendOneId)
-            //    .IsRequired()
-            //    .OnDelete(DeleteBehavior.Restrict);
-
-            //modelBuilder.Entity<User>()
-            //    .HasMany(f => f.FriendsAdded)
-            //    .WithOne(g => g.FriendTwo)
-            //    .HasForeignKey(w => w.FriendTwoId)
-            //    .IsRequired()
-            //    .OnDelete(DeleteBehavior.Restrict);
-
         }
 
         public DbSet<Value> Values { get; set; }

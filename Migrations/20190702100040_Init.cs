@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace soapApi.Migrations
 {
-    public partial class PleaseWork : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -43,7 +43,7 @@ namespace soapApi.Migrations
                     Id = table.Column<string>(nullable: false),
                     SenderId = table.Column<string>(nullable: false),
                     ReceiverId = table.Column<string>(nullable: false),
-                    Accepted = table.Column<bool>(nullable: false)
+                    IsActive = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

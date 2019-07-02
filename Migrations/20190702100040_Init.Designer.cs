@@ -9,8 +9,8 @@ using soapApi.Data;
 namespace soapApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190701142207_ChangedFriendRequest")]
-    partial class ChangedFriendRequest
+    [Migration("20190702100040_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -105,12 +105,12 @@ namespace soapApi.Migrations
             modelBuilder.Entity("soapApi.Models.FriendShip", b =>
                 {
                     b.HasOne("soapApi.Models.User", "FriendOne")
-                        .WithMany("AddedFriends")
+                        .WithMany("FriendsOne")
                         .HasForeignKey("FriendOneId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("soapApi.Models.User", "FriendTwo")
-                        .WithMany("FriendsAdded")
+                        .WithMany("FriendsTwo")
                         .HasForeignKey("FriendTwoId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
